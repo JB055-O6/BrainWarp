@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRAINWARP - Neural Interface</title>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <link id="theme-stylesheet" rel="stylesheet" href="css/themes/neural.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/ui/buttons.css">
+  <link rel="stylesheet" href="css/ui/modals.css">
+  <link rel="stylesheet" href="css/ui/panels.css">
+  <link rel="stylesheet" href="css/ui/puzzles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+</head>
+<body>
+  <!-- Background Elements -->
+  <canvas id="background-canvas"></canvas>
+  <div class="neural-grid"></div>
+
+  <!-- Header -->
+  <header class="neural-header">
+    <div class="logo">
+      <div class="logo-glyph" data-tooltip="BRAINWARP Interface" data-tooltip-position="bottom"></div>
+      <div class="logo-text">BRAINWARP</div>
+    </div>
+    <nav class="neural-nav">
+      <button class="pulse-button active" data-section="start" aria-label="Initialize Neural Interface">Initialize</button>
+      <button class="pulse-button" data-section="about" aria-label="View System Protocol">Protocol</button>
+      <button class="pulse-button" data-section="puzzles" aria-label="Access Neural Challenges">Neural Challenges</button>
+      <button class="pulse-button" data-section="profile" aria-label="View User Profile">Profile</button>
+      <button class="pulse-button" data-section="leaderboard" aria-label="View Leaderboard">Leaderboard</button>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="neural-main">
+    <!-- Start Section -->
+    <section id="start" class="active-section">
+      <div class="neural-container">
+        <div class="neural-capsule" role="region" aria-label="Welcome Capsule">
+          <div class="capsule-glow"></div>
+          <h1 class="neural-text">Welcome to BRAINWARP</h1>
+          <p class="neural-text">Engage your neural pathways and push the limits of your cognitive abilities.</p>
+          <button id="start-interface" class="glow-button" aria-label="Initiate Neural Link">
+            Initiate Neural Link
+            <div class="button-particles"></div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+      <div class="neural-container">
+        <div class="neural-panel" role="region" aria-label="System Protocol">
+          <div class="panel-glow"></div>
+          <h2 class="panel-title">System Protocol</h2>
+          <div class="info-grid">
+            <div class="info-cell" data-tooltip="Cognitive Enhancement" data-tooltip-position="top">
+              <div class="cell-icon cognitive-icon"></div>
+              <h3 class="cell-title">Cognitive Enhancement</h3>
+              <p class="cell-description">Improve memory, logic, reflexes, and pattern recognition.</p>
+            </div>
+            <div class="info-cell" data-tooltip="Neural Challenges" data-tooltip-position="top">
+              <div class="cell-icon challenge-icon"></div>
+              <h3 class="cell-title">Neural Challenges</h3>
+              <p class="cell-description">Engage in puzzles designed to test your neural capacity.</p>
+            </div>
+            <div class="info-cell" data-tooltip="Progress Tracking" data-tooltip-position="top">
+              <div class="cell-icon progress-icon"></div>
+              <h3 class="cell-title">Progress Tracking</h3>
+              <p class="cell-description">Monitor your cognitive growth and achievements.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Puzzles Section -->
+    <section id="puzzles">
+      <div class="neural-container">
+        <div class="puzzle-container" role="region" aria-label="Neural Challenges">
+          <h2 class="section-title">Neural Challenges</h2>
+          <div id="puzzle-grid" class="puzzle-grid"></div>
+          <div class="puzzle-stats">
+            <div class="stat-item">
+              <span class="stat-label">Score:</span>
+              <span id="player-score" class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Lives:</span>
+              <span id="player-lives" class="stat-value">3</span>
+            </div>
+            <button id="hint-button" class="neural-button" disabled aria-label="Request Hint">Request Hint</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="profile">
+      <div class="neural-container">
+        <div class="neural-panel" role="region" aria-label="User Profile">
+          <div class="panel-glow"></div>
+          <h2 class="panel-title">User Profile</h2>
+          <div class="profile-info">
+            <div class="profile-stat">
+              <span class="stat-label">Name:</span>
+              <span id="profile-name" class="stat-value">Neural User</span>
+            </div>
+            <div class="profile-stat">
+              <span class="stat-label">Level:</span>
+              <span id="profile-level" class="stat-value">1</span>
+            </div>
+            <div class="profile-stat">
+              <span class="stat-label">XP:</span>
+              <span id="profile-xp" class="stat-value">0</span>
+            </div>
+            <div class="profile-stat">
+              <span class="stat-label">Completed Puzzles:</span>
+              <span id="profile-completed" class="stat-value">0</span>
+            </div>
+          </div>
+          <div class="achievements-list">
+            <h3 class="achievements-title">Achievements</h3>
+            <div id="achievements-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leaderboard Section -->
+    <section id="leaderboard">
+      <div class="neural-container">
+        <div class="neural-panel" role="region" aria-label="Leaderboard">
+          <div class="panel-glow"></div>
+          <h2 class="panel-title">Leaderboard</h2>
+          <div id="leaderboard-table">
+            <div class="leaderboard-header">
+              <span>Rank</span>
+              <span>Name</span>
+              <span>Score</span>
+            </div>
+            <div id="leaderboard-entries"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Puzzle Modal -->
+  <div id="puzzle-modal" class="neural-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="puzzle-modal-title" class="modal-title"></h2>
+        <button class="close-button" aria-label="Close Puzzle Modal"></button>
+      </div>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/ui/components.js"></script>
+  <script src="js/gsap-animations.js"></script>
+  <script src="js/logic/game-engine.js"></script>
+  <script src="js/logic/level-loader.js"></script>
+  <script src="js/ui/sounds.js"></script>
+  <script src="js/ui/transitions.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

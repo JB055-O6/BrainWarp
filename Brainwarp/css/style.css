@@ -1,0 +1,637 @@
+/* Custom Properties */
+:root {
+  /* Colors */
+  --primary: #00f0ff;
+  --secondary: #ff00e6;
+  --accent: #7d00ff;
+  --background: #050518;
+  --text: #e0e0ff;
+  --glow: rgba(0, 240, 255, 0.5);
+  --shadow: rgba(0, 0, 0, 0.8);
+
+  /* Animations */
+  --speed-fast: 0.3s;
+  --speed-normal: 0.5s;
+  --speed-slow: 0.8s;
+
+  /* Glow Effects */
+  --glow-intensity: 10px;
+  --glow-color: var(--primary);
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Futuristic', sans-serif;
+  background: var(--background);
+  color: var(--text);
+  overflow-x: hidden;
+  /* cursor: url('assets/cursor-default.png'), auto; */
+}
+
+/* Custom Cursors */
+/* button:hover,
+.pulse-button:hover,
+.glow-button:hover,
+.neural-button:hover,
+.close-button:hover,
+.settings-toggle:hover,
+.pattern-option:hover,
+.memory-cell:hover,
+.logic-node:hover,
+.reflex-target:hover,
+.hint-button:hover {
+  cursor: url('assets/cursor-pointer.png'), pointer;
+}
+
+[data-tooltip]:hover {
+  cursor: url('assets/cursor-info.png'), help;
+}
+
+.memory-cell.active:hover,
+.logic-node.active:hover,
+.reflex-target.active:hover {
+  cursor: url('assets/cursor-active.png'), pointer;
+}
+
+.neural-capsule:hover,
+.info-cell:hover,
+.neural-puzzle-card:hover {
+  cursor: url('assets/cursor-interact.png'), pointer;
+} */
+
+/* Typography */
+/* @font-face {
+  font-family: 'Futuristic';
+  src: url('assets/fonts/futuristic.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+} */
+
+/* Background Elements */
+#background-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.neural-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 20px,
+    rgba(255, 255, 255, 0.05) 20px,
+    rgba(255, 255, 255, 0.05) 21px
+  ),
+  repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 20px,
+    rgba(255, 255, 255, 0.05) 20px,
+    rgba(255, 255, 255, 0.05) 21px
+  );
+  opacity: 0.2;
+  z-index: -1;
+}
+
+/* Layout */
+.neural-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.neural-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(5, 5, 24, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-glyph {
+  width: 40px;
+  height: 40px;
+  /* background: url('assets/logo-glyph.png') center/contain no-repeat; */
+  filter: drop-shadow(0 0 5px var(--glow));
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.neural-nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.neural-main {
+  min-height: calc(100vh - 80px);
+}
+
+section {
+  display: none;
+  padding: 2rem 0;
+  opacity: 0; /* Initial state for GSAP to animate from */
+}
+
+.active-section {
+  display: block;
+  opacity: 1 !important; /* Force visibility even if GSAP fails */
+}
+
+/* Ensure child elements are visible when section is active */
+.active-section .neural-text,
+.active-section .neural-capsule,
+.active-section .neural-panel,
+.active-section .puzzle-container,
+.active-section .puzzle-card,
+.active-section .profile-stat,
+.active-section .achievement-item,
+.active-section .leaderboard-entry,
+.active-section .glow-button,
+.active-section .info-cell {
+  opacity: 1 !important; /* Force visibility */
+  display: block !important; /* Ensure elements aren't hidden */
+}
+
+/* Components */
+.neural-capsule {
+  background: rgba(10, 10, 32, 0.9);
+  border: 1px solid var(--primary);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform var(--speed-normal);
+  opacity: 1; /* Ensure default visibility */
+}
+
+.capsule-glow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 1rem;
+  box-shadow: 0 0 var(--glow-intensity) var(--glow-color);
+  z-index: -1;
+  animation: pulse 2s infinite;
+}
+
+.neural-text {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  opacity: 1; /* Ensure default visibility */
+}
+
+h1.neural-text {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.neural-panel {
+  background: rgba(10, 10, 32, 0.9);
+  border: 1px solid var(--accent);
+  border-radius: 1rem;
+  padding: 2rem;
+  position: relative;
+  opacity: 1; /* Ensure default visibility */
+}
+
+.panel-glow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 1rem;
+  box-shadow: 0 0 var(--glow-intensity) var(--accent);
+  z-index: -1;
+  animation: pulse 2s infinite;
+}
+
+.panel-title,
+.section-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.info-cell {
+  background: rgba(20, 20, 40, 0.8);
+  border: 1px solid var(--primary);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+  transition: transform var(--speed-fast), box-shadow var(--speed-fast);
+  opacity: 1; /* Ensure default visibility */
+}
+
+.info-cell:hover,
+.cell-glow {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px var(--glow);
+}
+
+.cell-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 0.5rem;
+}
+
+/* .cognitive-icon {
+  background: url('assets/icons/cognitive.png') center/contain no-repeat;
+}
+
+.challenge-icon {
+  background: url('assets/icons/challenge.png') center/contain no-repeat;
+}
+
+.progress-icon {
+  background: url('assets/icons/progress.png') center/contain no-repeat;
+} */
+
+.cell-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.cell-description {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Puzzle Section */
+.puzzle-container {
+  text-align: center;
+  opacity: 1; /* Ensure default visibility */
+}
+
+.puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.puzzle-card {
+  background: rgba(20, 20, 40, 0.8);
+  border: 1px solid var(--primary);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  position: relative;
+  transition: transform var(--speed-fast), box-shadow var(--speed-fast);
+  opacity: 1; /* Ensure default visibility */
+}
+
+.puzzle-card.unlocked:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px var(--glow);
+}
+
+.puzzle-card.locked {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.card-glow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 var(--glow-intensity) var(--glow-color);
+  z-index: -1;
+  animation: pulse 2s infinite;
+}
+
+.card-content {
+  text-align: center;
+}
+
+.puzzle-icon {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 0.5rem;
+}
+
+/* .memory-icon {
+  background: url('assets/icons/memory.png') center/contain no-repeat;
+}
+
+.logic-icon {
+  background: url('assets/icons/logic.png') center/contain no-repeat;
+}
+
+.reflex-icon {
+  background: url('assets/icons/reflex.png') center/contain no-repeat;
+}
+
+.pattern-icon {
+  background: url('assets/icons/pattern.png') center/contain no-repeat;
+} */
+
+.puzzle-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.puzzle-difficulty {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.difficulty-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.difficulty-value {
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.difficulty-value.easy {
+  color: #00ff85;
+}
+
+.difficulty-value.medium {
+  color: #ffcc00;
+}
+
+.difficulty-value.hard {
+  color: #ff3366;
+}
+
+.puzzle-description {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.puzzle-status {
+  font-size: 0.9rem;
+}
+
+.status-unlocked {
+  color: #00ff85;
+}
+
+.status-locked {
+  color: #ff3366;
+}
+
+.puzzle-stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.stat-value {
+  font-size: 1rem;
+  color: var(--primary);
+}
+
+.hint-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Profile Section */
+.profile-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.profile-stat {
+  background: rgba(20, 20, 40, 0.8);
+  border: 1px solid var(--primary);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+  opacity: 1; /* Ensure default visibility */
+}
+
+.achievements-list {
+  margin-top: 2rem;
+}
+
+.achievements-title {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+#achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.achievement-item {
+  background: rgba(20, 20, 40, 0.8);
+  border: 1px solid var(--accent);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+  opacity: 1; /* Ensure default visibility */
+}
+
+.achievement-item-title {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.achievement-item-description {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.achievement-item-date {
+  font-size: 0.8rem;
+  color: var(--secondary);
+  margin-top: 0.5rem;
+}
+
+/* Leaderboard Section */
+#leaderboard-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.leaderboard-header {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  background: rgba(20, 20, 40, 0.8);
+  padding: 1rem;
+  border-bottom: 1px solid var(--primary);
+  font-weight: bold;
+  text-align: center;
+}
+
+.leaderboard-entry {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  opacity: 1; /* Ensure default visibility */
+}
+
+.leaderboard-entry:nth-child(odd) {
+  background: rgba(30, 30, 50, 0.5);
+}
+
+.leaderboard-rank {
+  color: var(--primary);
+}
+
+.leaderboard-name {
+  color: var(--text);
+}
+
+.leaderboard-score {
+  color: var(--secondary);
+}
+
+/* Glow Button (e.g., Start Interface Button) */
+.glow-button {
+  display: inline-block; /* Ensure button can be centered with text-align */
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--text);
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border: none;
+  border-radius: 0.5rem;
+  position: relative;
+  transition: transform var(--speed-fast), box-shadow var(--speed-fast);
+  cursor: pointer;
+  margin: 1rem auto; /* Center the button horizontally */
+}
+
+.glow-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px var(--glow);
+}
+
+.glow-button:active {
+  transform: scale(0.95);
+}
+
+.glow-button::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 var(--glow-intensity) var(--glow-color);
+  z-index: -1;
+  animation: pulse 2s infinite;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { box-shadow: 0 0 5px var(--glow-color); }
+  50% { box-shadow: 0 0 15px var(--glow-color); }
+  100% { box-shadow: 0 0 5px var(--glow-color); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .neural-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .neural-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .neural-container {
+    padding: 1rem;
+  }
+
+  .puzzle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .glow-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}

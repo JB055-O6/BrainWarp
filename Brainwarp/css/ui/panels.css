@@ -1,0 +1,19 @@
+.neural-panel {
+  background: rgba(10, 10, 32, 0.9);
+  border: 1px solid var(--accent);
+  border-radius: 1rem;
+  padding: 2rem;
+  position: relative;
+}
+
+.panel-glow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 1rem;
+  box-shadow: 0 0 var(--glow-intensity) var(--accent);
+  z-index: -1;
+  animation: pulse 2s infinite;
+}

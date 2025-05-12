@@ -1,0 +1,68 @@
+{
+  "puzzles": [
+    {
+      "id": "memory-1",
+      "type": "memory",
+      "title": "Sequence Recall I",
+      "difficulty": "easy",
+      "description": "Memorize and repeat the sequence of neural pulses.",
+      "unlocked": true
+    },
+    {
+      "id": "logic-1",
+      "type": "logic",
+      "title": "Neural Pathways I",
+      "difficulty": "easy",
+      "description": "Connect the correct neural pathways to complete the circuit.",
+      "unlocked": true
+    },
+    {
+      "id": "reflex-1",
+      "type": "reflex",
+      "title": "Synapse Response I",
+      "difficulty": "easy",
+      "description": "Click the neural nodes as they appear within the time limit.",
+      "unlocked": true
+    },
+    {
+      "id": "pattern-1",
+      "type": "pattern",
+      "title": "Pattern Recognition I",
+      "difficulty": "medium",
+      "description": "Identify and continue the neural pattern sequence.",
+      "unlocked": false
+    },
+    {
+      "id": "memory-2",
+      "type": "memory",
+      "title": "Sequence Recall II",
+      "difficulty": "medium",
+      "description": "Memorize a longer sequence of neural pulses.",
+      "unlocked": false
+    },
+    {
+      "id": "logic-2",
+      "type": "logic",
+      "title": "Neural Pathways II",
+      "difficulty": "medium",
+      "description": "Navigate a more complex circuit to connect the pathways.",
+      "unlocked": false
+    },
+    {
+      "id": "reflex-2",
+      "type": "reflex",
+      "title": "Synapse Response II",
+      "difficulty": "medium",
+      "description": "Click faster as the nodes appear more rapidly.",
+      "unlocked": false
+    },
+    {
+      "id": "pattern-2",
+      "type": "pattern",
+      "title": "Pattern Recognition II",
+      "difficulty": "hard",
+      "description": "Identify a more complex pattern sequence.",
+      "unlocked": false
+    }
+  ]
+}

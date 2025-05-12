@@ -1,0 +1,9 @@
+:root {
+  --primary: #00f0ff;
+  --secondary: #ff00e6;
+  --accent: #7d00ff;
+  --background: #050518;
+  --text: #e0e0ff;
+  --glow: rgba(0, 240, 255, 0.5);
+  --glow-color: var(--primary);
+}
